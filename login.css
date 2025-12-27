@@ -1,0 +1,273 @@
+/* ========================================= */
+/* 耳 LOGIN PAGE STYLES (FIXED ANIMATION) */
+/* ========================================= */
+
+/* ===== RESET & BASE STYLES ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* DARK MODE (Default) */
+  --bg-gradient-start: rgba(20, 30, 48, 0.9);
+  --bg-gradient-end: rgba(36, 59, 85, 0.9);
+  --card-bg: #0c1a1f;
+  --input-bg: #1a2a3f;
+  --text-primary: #fff;
+  --text-secondary: #ccc;
+  --toggle-inactive-bg: #1a2a3f;
+}
+
+body.light-mode {
+  /* LIGHT MODE */
+  --bg-gradient-start: rgba(224, 242, 254, 0.95);
+  --bg-gradient-end: rgba(240, 249, 255, 0.95);
+  --card-bg: #ffffff;
+  --input-bg: #f1f5f9;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --toggle-inactive-bg: #f1f5f9;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+/* ===== ANIMATED BORDER WRAPPER ===== */
+.wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  padding: 2px; /* Rainbow border thickness */
+  border-radius: 20px;
+  background: linear-gradient(270deg, #00e0ff, #fbb901, #ff33cc, #00e0ff);
+  background-size: 600% 600%;
+  animation: borderAnimation 8s linear infinite;
+  box-shadow: 0 0 20px rgba(0, 224, 255, 0.5);
+}
+
+@keyframes borderAnimation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ===== MAIN CARD CONTAINER ===== */
+.card {
+  background-color: var(--card-bg);
+  border-radius: 18px;
+  position: relative; /* Crucial for absolute positioning of children */
+  overflow: hidden;   /* Hides content sliding out */
+  min-height: 600px;
+  width: 100%;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+body.light-mode .card {
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* ========================================= */
+/* ｧｺ LAYOUT SECTIONS (ABSOLUTE POSITIONING) */
+/* ========================================= */
+
+/* LEFT SIDE (IMAGE) */
+.card-left {
+  position: absolute;
+  top: 0;
+  left: 0; /* Starts on the LEFT */
+  width: 50%;
+  height: 100%;
+  transition: transform 0.6s ease-in-out;
+  z-index: 2;
+  
+  /* IMAGE STYLING */
+  background-color: #1a2a3f; /* Fallback color if image fails */
+  background-image: url('homepage_picture/dogcat.jpeg'); /* Check this filename exactly */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Dark overlay for text readability if you add text over image later */
+.card-left::after {
+  content: ""; 
+  position: absolute; 
+  top: 0; left: 0; 
+  width: 100%; height: 100%;
+  background: linear-gradient(135deg, rgba(0,0,0,0.1), rgba(0,0,0,0.4));
+}
+
+/* RIGHT SIDE (FORMS) */
+.card-right {
+  position: absolute;
+  top: 0;
+  left: 50%; /* Starts on the RIGHT */
+  width: 50%;
+  height: 100%;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: transform 0.6s ease-in-out;
+  z-index: 1;
+}
+
+/* ========================================= */
+/* 鴉 SLIDING ANIMATION LOGIC */
+/* ========================================= */
+
+/* When 'sign-up-mode' is active: */
+
+/* 1. Image slides to the RIGHT (100% of its own width) */
+.card.sign-up-mode .card-left {
+  transform: translateX(100%);
+}
+
+/* 2. Forms slide to the LEFT (-100% of its own width) */
+.card.sign-up-mode .card-right {
+  transform: translateX(-100%);
+}
+
+/* ========================================= */
+/* 置 CONTROLS & FORM STYLES */
+/* ========================================= */
+
+.theme-toggle {
+  position: absolute; top: 20px; right: 20px;
+  background: var(--input-bg); border: none; border-radius: 50%;
+  width: 40px; height: 40px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; transition: all 0.3s ease; z-index: 20;
+}
+
+.back-arrow {
+  position: absolute; top: 20px; left: 20px;
+  font-size: 24px; color: var(--text-primary); text-decoration: none;
+  font-weight: bold; z-index: 20;
+}
+
+/* Toggle Buttons (Sign In / Sign Up) */
+.form-toggle {
+  display: flex; margin-bottom: 30px; gap: 0; border-radius: 10px; overflow: hidden;
+}
+
+.form-toggle button {
+  flex: 1; padding: 12px; border: none;
+  background: var(--toggle-inactive-bg);
+  color: var(--text-secondary); cursor: pointer;
+  transition: all 0.3s ease; font-weight: 500;
+}
+
+.form-toggle button.active {
+  background: linear-gradient(135deg, #00e0ff, #fbb901);
+  color: #0c1a1f; font-weight: bold;
+}
+
+body.light-mode .form-toggle button.active {
+  background: linear-gradient(135deg, #0ea5e9, #0284c7);
+  color: #fff;
+}
+
+/* Form Visibility Animation */
+.form-container { position: relative; width: 100%; }
+.form { display: none; opacity: 0; animation: fadeIn 0.8s ease-in-out forwards; }
+.form.active { display: block; }
+
+@keyframes fadeIn { 
+  from { opacity: 0; transform: translateY(10px); } 
+  to { opacity: 1; transform: translateY(0); } 
+}
+
+.form h1 {
+  font-size: 28px; margin-bottom: 25px; text-align: center;
+  color: #fbb901; 
+}
+body.light-mode .form h1 { color: #0ea5e9; }
+
+.form-group { margin-bottom: 20px; }
+
+.form input {
+  width: 100%; padding: 14px; border: 2px solid transparent;
+  border-radius: 10px; font-size: 15px; outline: none;
+  background: var(--input-bg); color: var(--text-primary);
+  font-family: 'Poppins', sans-serif; transition: 0.3s;
+}
+
+.form input:focus { 
+  border-color: #00e0ff; 
+  box-shadow: 0 0 10px rgba(0, 224, 255, 0.2); 
+}
+body.light-mode .form input:focus { 
+  border-color: #0ea5e9; 
+  box-shadow: 0 0 10px rgba(14, 165, 233, 0.2); 
+}
+
+.form button[type="submit"] {
+  width: 100%; padding: 14px;
+  background: linear-gradient(135deg, #00e0ff, #fbb901);
+  color: #0c1a1f; border: none; border-radius: 10px;
+  font-size: 16px; font-weight: bold; cursor: pointer;
+  margin-top: 10px; transition: 0.3s;
+}
+
+body.light-mode .form button[type="submit"] {
+  background: linear-gradient(135deg, #0ea5e9, #0284c7);
+  color: white;
+}
+
+.form button[type="submit"]:hover { 
+  transform: translateY(-2px); 
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2); 
+}
+
+.form-footer { 
+  margin-top: 20px; text-align: center; font-size: 14px; 
+  color: var(--text-secondary); 
+}
+
+.form-footer a { 
+  color: #00e0ff; text-decoration: none; font-weight: bold; 
+}
+body.light-mode .form-footer a { color: #0ea5e9; }
+
+.error-text { 
+  color: #ff4757; font-size: 14px; text-align: center; 
+  margin-top: 10px; min-height: 20px; 
+}
+
+/* ========================================= */
+/* ﾓｱ MOBILE RESPONSIVE STYLES */
+/* ========================================= */
+@media (max-width: 768px) {
+  .card { 
+    flex-direction: column; 
+    min-height: auto; 
+  }
+  
+  /* Hide image on mobile to save space */
+  .card-left { display: none; } 
+  
+  /* Make form take full width */
+  .card-right { 
+    width: 100%; 
+    height: auto; 
+    position: relative; 
+    left: 0; 
+    transform: none !important; 
+    padding: 30px;
+  }
+}

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Booking History - Pawfect Grooming PH</title>
+  <link rel="stylesheet" href="common.css">
+  <style>
+    .history-container {
+        padding: 120px 20px 60px; /* Adjusted padding for mobile */
+        max-width: 1000px;
+        margin: 0 auto;
+        min-height: 80vh;
+    }
+
+    .history-header { 
+        margin-bottom: 40px; 
+        text-align: center; 
+    }
+
+    .history-header h1 { 
+        font-size: 36px; 
+        font-weight: 800;
+        background: linear-gradient(135deg, var(--accent-color-light), var(--accent-color-dark));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 10px;
+    }
+    
+    .history-header p {
+        color: var(--text-secondary);
+        font-size: 16px;
+    }
+    
+    /* CARD & TABLE STYLING */
+    .table-card {
+        background: var(--bg-secondary); 
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+        border: 1px solid var(--border-color);
+        padding: 5px; 
+        overflow: hidden;
+    }
+
+    /* FIX: Added overflow-x: auto for horizontal scrolling */
+    .table-responsive {
+        width: 100%;
+        overflow-x: auto; 
+        -webkit-overflow-scrolling: touch;
+    }
+
+    table { 
+        width: 100%; 
+        border-collapse: collapse; 
+        min-width: 600px; /* FIX: Prevents columns from getting crushed */
+    }
+
+    thead {
+        background: var(--bg-tertiary);
+    }
+
+    th { 
+        text-align: left; 
+        padding: 20px; 
+        color: var(--text-faded); 
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border-bottom: 1px solid var(--border-color); 
+        white-space: nowrap; /* Prevents header wrapping */
+    }
+
+    td { 
+        padding: 20px; 
+        border-bottom: 1px solid var(--border-color); 
+        color: var(--text-primary); 
+        vertical-align: middle;
+        transition: background 0.2s;
+    }
+
+    tbody tr:hover td {
+        background: rgba(var(--accent-color-light), 0.05); 
+    }
+
+    tbody tr:last-child td {
+        border-bottom: none;
+    }
+    
+    /* ===== STATUS BADGES ===== */
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 6px 12px; 
+        border-radius: 30px; 
+        font-size: 11px; 
+        font-weight: 800; 
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        white-space: nowrap;
+    }
+    
+    .status-badge::before {
+        content: '●';
+        margin-right: 6px;
+        font-size: 10px;
+    }
+
+    .status-pending { background: rgba(251, 185, 1, 0.15); color: #fbb901; border: 1px solid rgba(251, 185, 1, 0.3); }
+    .status-confirmed { background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .status-completed { background: rgba(59, 130, 246, 0.15); color: #3b82f6; border: 1px solid rgba(59, 130, 246, 0.3); }
+    .status-cancelled { background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); }
+
+    /* Empty State Fix */
+    .empty-state {
+        padding: 60px 20px;
+        text-align: center;
+        color: var(--text-secondary);
+        white-space: normal; /* Allow text wrapping */
+    }
+    .empty-state-icon {
+        font-size: 40px;
+        margin-bottom: 15px;
+        display: block;
+        opacity: 0.5;
+    }
+  </style>
+</head>
+<body>
+  <div id="header-placeholder"></div>
+
+  <div class="history-container">
+    <div class="history-header">
+      <h1>My Appointment History</h1>
+      <p>Keep track of your pet's grooming and vet visits.</p>
+    </div>
+
+    <div class="table-card">
+        <div class="table-responsive">
+          <table id="historyTable">
+            <thead>
+              <tr>
+                <th>Date & Time</th>
+                <th>Service</th>
+                <th>Pet Details</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody">
+               <tr><td colspan="4" style="text-align:center; padding: 40px;">Loading records...</td></tr>
+            </tbody>
+          </table>
+        </div>
+    </div>
+  </div>
+
+  <div id="footer-placeholder"></div>
+
+  <script src="layout.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        const userSession = sessionStorage.getItem('user');
+        if (!userSession) {
+            window.location.href = 'login.html';
+            return;
+        }
+        const user = JSON.parse(userSession);
+        
+        const tbody = document.getElementById('tableBody');
+
+        try {
+            const email = user.email; 
+            if(!email) {
+                 tbody.innerHTML = `
+                    <tr>
+                        <td colspan="4" class="empty-state">
+                            <span class="empty-state-icon">⚠️</span>
+                            User email not found. Please re-login.
+                        </td>
+                    </tr>`;
+                 return;
+            }
+
+            const res = await fetch(`booking_api.php?action=get_user_bookings&email=${encodeURIComponent(email)}`);
+            const bookings = await res.json();
+
+            if(bookings.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="4" class="empty-state">
+                            <span class="empty-state-icon">📅</span>
+                            No appointments found. <a href="booking.html" style="color:var(--accent-color-light); font-weight:bold;">Book one now?</a>
+                        </td>
+                    </tr>`;
+                return;
+            }
+
+            tbody.innerHTML = bookings.map(b => {
+                const statusLower = (b.status || 'pending').toLowerCase(); 
+                const statusDisplay = statusLower.charAt(0).toUpperCase() + statusLower.slice(1);
+                
+                const dateObj = new Date(b.appointment_date);
+                const dateStr = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+                return `
+                <tr>
+                    <td>
+                        <div style="font-weight:700; font-size:16px; color:var(--text-primary); margin-bottom:4px;">${dateStr}</div>
+                        <div style="font-size:13px; color:var(--text-faded); font-weight:500;">
+                           ⏰ ${b.appointment_time}
+                        </div>
+                    </td>
+                    <td>
+                        <div style="font-weight:600; color:var(--text-secondary);">${b.service_type}</div>
+                    </td>
+                    <td>
+                        <div style="font-weight:600; color:var(--text-primary);">${b.pet_name}</div>
+                        <div style="font-size:12px; color:var(--text-faded);">
+                            ${b.pet_type}
+                        </div>
+                    </td>
+                    <td>
+                        <span class="status-badge status-${statusLower}">${statusDisplay}</span>
+                    </td>
+                </tr>
+            `}).join('');
+
+        } catch(e) {
+            console.error(e);
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:40px;">Error loading history. Please try again later.</td></tr>';
+        }
+    });
+  </script>
+</body>
+</html>

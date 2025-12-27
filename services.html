@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Services - Pawfect Grooming PH</title>
+  <link rel="stylesheet" href="common.css">
+  <link rel="stylesheet" href="services.css">
+</head>
+<body>
+  <div id="header-placeholder"></div>
+
+  <section class="services-hero">
+    <div class="services-hero-content">
+      <h1>Our Services</h1>
+      <p>We provide a comprehensive range of pet care services designed to keep your furry friends happy, healthy, and looking their absolute best.</p>
+      <div class="hero-cta">
+        <button class="cta-button cta-primary" onclick="window.location.href='booking.html'">Book Appointment</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="services-section">
+    <div class="section-header">
+      <h2>What We Offer</h2>
+      <p>Professional pet care solutions tailored to meet every need</p>
+    </div>
+    
+    <div class="services-grid" id="servicesGrid">
+      <p style="color:white; width:100%; text-align:center;">Loading services...</p>
+    </div>
+  </section>
+
+  <section class="why-choose">
+    <h2>Why Choose Pawfect Grooming PH?</h2>
+    <div class="features-grid">
+      <div class="feature-item">
+        <div class="feature-icon">🏆</div>
+        <h3>Certified Experts</h3>
+        <p>Our team consists of certified professionals with years of experience.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🏥</div>
+        <h3>Modern Facilities</h3>
+        <p>State-of-the-art equipment and clean, comfortable spaces.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">❤️</div>
+        <h3>Loving Care</h3>
+        <p>We treat every pet with the love and attention they deserve.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">⏰</div>
+        <h3>Flexible Hours</h3>
+        <p>Convenient scheduling options to fit your busy lifestyle.</p>
+      </div>
+    </div>
+  </section>
+
+  <div id="footer-placeholder"></div>
+  <script src="layout.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        try {
+            const response = await fetch('services_api.php');
+            const services = await response.json();
+            const container = document.getElementById('servicesGrid');
+            
+            if(services.length > 0) {
+                container.innerHTML = services.map(s => `
+                <div class="service-card">
+                    <div class="service-icon">
+                        <img src="${s.image}" alt="${s.name}" onerror="this.src='homepage_picture/logo.png'">
+                    </div>
+                    <h3>${s.name}</h3>
+                    <p>${s.description}</p>
+                    <div class="service-price">₱${s.price}<span>/session</span></div>
+                    <button class="book-btn" onclick="window.location.href='booking.html'">Book Now</button>
+                </div>
+                `).join('');
+            } else {
+                container.innerHTML = '<p>No services available at the moment.</p>';
+            }
+        } catch (e) {
+            console.error("Error loading services", e);
+            document.getElementById('servicesGrid').innerHTML = '<p>Error loading content.</p>';
+        }
+    });
+  </script>
+</body>
+</html>

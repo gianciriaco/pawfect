@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In / Sign Up - Pawfect Grooming PH</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="login.css"> 
+</head>
+<body>
+  <div class="wrapper">
+    <div class="card" id="mainCard">
+      
+      <a href="index.html" class="back-arrow" aria-label="Back to home">←</a>
+      <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
+
+      <div class="card-left"></div>
+
+      <div class="card-right">
+        
+        <div class="form-toggle">
+          <button type="button" id="signInBtn" class="active">Sign In</button>
+          <button type="button" id="signUpBtn">Sign Up</button>
+        </div>
+
+        <div class="form-container">
+          <form id="signInForm" class="form active" onsubmit="return handleLogin(event)">
+            <h1>Welcome Back</h1>
+            <div class="form-group">
+              <input type="text" id="loginUsername" name="username" placeholder="Email or Username" required>
+            </div>
+            <div class="form-group">
+              <input type="password" id="loginPassword" name="password" placeholder="Password" required>
+            </div>
+            <button type="submit">Login</button>
+            <div id="loginError" class="error-text"></div>
+            <div class="form-footer">
+              <p>Not a member? <a href="#" id="switchToSignUp">Sign up now</a></p>
+            </div>
+          </form>
+
+          <form id="signUpForm" class="form" onsubmit="return handleSignup(event)">
+            <h1>Create Account</h1>
+            <div class="form-group">
+              <input type="text" name="fullname" placeholder="Full Name" required>
+            </div>
+            <div class="form-group">
+              <input type="email" name="email" placeholder="Email" required>
+            </div>
+            <div class="form-group">
+              <input type="password" name="password" placeholder="Password" required minlength="6">
+            </div>
+            <div class="form-group">
+              <input type="password" name="confirm-password" placeholder="Confirm Password" required minlength="6">
+            </div>
+            <button type="submit">Sign Up</button>
+            <div id="signupError" class="error-text"></div> <div class="form-footer">
+              <p>Already have an account? <a href="#" id="switchToSignIn">Login</a></p>
+            </div>
+          </form>
+        </div>
+      </div> </div>
+  </div>
+
+  <script src="login.js"></script>
+</body>
+</html>

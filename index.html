@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pawfect Grooming PH - Pet Care Services</title>
+    <link rel="stylesheet" href="common.css">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Where Every Pet is a Star</h1>
+            <p>From grooming to a range of services, we offer everything to keep your best friend happy, healthy, and looking their absolute best.</p>
+            <div class="hero-cta">
+                <button class="cta-button cta-primary" onclick="window.location.href='booking.html'">Book Appointment</button>
+                <button class="cta-button cta-secondary" onclick="window.location.href='services.html'">Our Services</button>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="homepage_picture/dogdog.png" alt="Happy dog with a crown">
+        </div>
+    </section>
+
+    <section class="services-overview">
+        <h2>Our Popular Services</h2>
+        <div class="cards-container" id="popularServicesContainer">
+            <p style="font-size: 18px; color: var(--text-secondary);">Loading popular services</p>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <h2>What Our Clients Say</h2>
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <p class="quote">“The best groomers in town! My chihuahua always looks amazing and comes home so happy. Highly recommend Pawfect Grooming PH!”</p>
+                <p class="author">- Jane D., Proud Owner of Sparky</p>
+            </div>
+            <div class="testimonial-card">
+                <p class="quote">“The grooming team is incredibly skilled and gentle. They made the whole session easy and stress-free for my pet. Truly outstanding professionals.”</p>
+                <p class="author">- Mark S., Proud Owner of Whiskers</p>
+            </div>
+            <div class="testimonial-card">
+                <p class="quote">“I used their training services and saw immediate improvement in my puppy’s behavior. Worth every penny!”</p>
+                <p class="author">- Sarah L., Proud Owner of Buster</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-banner">
+        <h2>Ready to Give Your Pet the Pawfect Grooming Treatment?</h2>
+        <p>Book your first appointment today and join the family of happy pets and owners.</p>
+        <button onclick="window.location.href='booking.html'">Get Started Now</button>
+    </section>
+
+    <div id="footer-placeholder"></div>
+
+    <script src="layout.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const container = document.getElementById('popularServicesContainer');
+
+            try {
+                // Fetch data from your existing API
+                const response = await fetch('services_api.php');
+                const services = await response.json();
+
+                // Clear the "Loading..." text
+                container.innerHTML = '';
+
+                // Take only the first 3 services for the homepage
+                const popularServices = services.slice(0, 3); 
+
+                if (popularServices.length > 0) {
+                    container.innerHTML = popularServices.map(s => `
+                        <div class="service-card">
+                            <img src="${s.image}" alt="${s.name}" onerror="this.src='homepage_picture/logo.png'">
+                            <h3>${s.name}</h3>
+                            <p>${s.description.substring(0, 100)}...</p> 
+                            </div>
+                    `).join('');
+                } else {
+                    container.innerHTML = '<p>No services available.</p>';
+                }
+            } catch (error) {
+                console.error('Error fetching services:', error);
+                container.innerHTML = '<p>Currently unavailable. Please check back later.</p>';
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+
+<!-- 
+
+http://localhost/wonderpet/index.html 
+ 
+wonderpet123
+-->

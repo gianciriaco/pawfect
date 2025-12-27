@@ -1,0 +1,285 @@
+/* ===== HERO SECTION ===== */
+.services-hero {
+  text-align: center;
+  padding: 120px 60px;
+  background: transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.services-hero::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(251, 185, 1, 0.05) 0%, transparent 70%);
+  animation: rotate 20s linear infinite;
+  z-index: 1;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.services-hero-content {
+  position: relative;
+  z-index: 2;
+  animation: fadeInUp 1s ease;
+}
+
+.services-hero h1 {
+  font-size: 64px;
+  font-weight: 900;
+  margin-bottom: 30px;
+  background: linear-gradient(135deg, var(--accent-color-light, #fbb901), var(--accent-color-dark, #ffcc33));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.services-hero p {
+  font-size: 20px;
+  max-width: 800px;
+  margin: 0 auto 40px;
+  line-height: 1.8;
+  color: var(--text-secondary, #ccc);
+}
+
+.hero-cta {
+  display: inline-flex;
+  gap: 20px;
+}
+
+.cta-button {
+  padding: 18px 40px;
+  font-size: 18px;
+  font-weight: 700;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.cta-primary {
+  background: linear-gradient(135deg, var(--accent-color-light, #fbb901), var(--accent-color-dark, #ffcc33));
+  color: #0c1a1f;
+  box-shadow: 0 10px 30px rgba(251, 185, 1, 0.3);
+}
+
+.cta-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(251, 185, 1, 0.5);
+}
+
+/* ===== SERVICES GRID SECTION ===== */
+.services-section {
+  padding: 60px 40px 100px;
+  text-align: center;
+  background: transparent; 
+}
+
+.section-header h2 {
+  font-size: 48px;
+  font-weight: 900;
+  margin-bottom: 20px;
+  color: var(--accent-color-light, #fbb901);
+}
+
+.section-header p {
+  font-size: 20px;
+  color: var(--text-faded, #999);
+  max-width: 700px;
+  margin: 0 auto 60px;
+}
+
+/* GRID SETUP */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  max-width: 1400px;
+  margin: 0 auto;
+  align-items: stretch; /* Ensures all cards in a row are same height */
+}
+
+/* ===== SERVICE CARD UI ===== */
+.service-card {
+  /* FLEXBOX CONFIGURATION FOR ALIGNMENT */
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Fills the grid height */
+  
+  background: rgba(12, 26, 31, 0.85); /* Dark card background */
+  backdrop-filter: blur(10px); 
+  border-radius: 20px;
+  padding: 35px 25px;
+  text-align: center;
+  border: 1px solid rgba(251, 185, 1, 0.2); 
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+}
+
+.service-card:hover {
+  transform: translateY(-10px);
+  border-color: var(--accent-color-light, #fbb901);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  background: rgba(12, 26, 31, 1);
+}
+
+/* ICON */
+.service-icon {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 25px;
+  border-radius: 50%;
+  padding: 5px;
+  border: 2px solid var(--accent-color-light, #fbb901);
+  transition: transform 0.5s ease;
+  background: #000;
+  overflow: hidden;
+}
+
+.service-card:hover .service-icon {
+  transform: rotate(5deg) scale(1.1);
+  box-shadow: 0 0 15px rgba(251, 185, 1, 0.4);
+}
+
+.service-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* TEXT CONTENT */
+.service-card h3 {
+  font-size: 22px;
+  color: var(--accent-color-light, #fbb901);
+  margin-bottom: 15px;
+  font-weight: 700;
+  min-height: 54px; /* Helps align titles if some are 2 lines */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.service-card p {
+  font-size: 15px;
+  color: var(--text-secondary, #ccc);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+/* ===== PRICE & BUTTON (THE ALIGNMENT FIX) ===== */
+.service-price {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--accent-color-light, #fbb901);
+  margin-bottom: 20px;
+  
+  /* CRITICAL: Pushes the price (and button below it) to the very bottom */
+  margin-top: auto; 
+}
+
+.service-price span {
+  font-size: 14px;
+  color: var(--text-faded, #999);
+  font-weight: 400;
+  margin-left: 5px;
+}
+
+.book-btn {
+  width: 100%;
+  padding: 14px 20px;
+  background: var(--accent-color-light, #fbb901);
+  color: #0c1a1f;
+  border: none;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.book-btn:hover {
+  background: #ffcc33;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(251, 185, 1, 0.4);
+}
+
+/* ===== WHY CHOOSE US ===== */
+.why-choose {
+  padding: 100px 60px;
+  background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.2) 100%);
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.why-choose h2 {
+  text-align: center;
+  font-size: 42px;
+  font-weight: 900;
+  margin-bottom: 60px;
+  color: var(--text-primary, #fff);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.feature-item { 
+    text-align: center; 
+    padding: 30px;
+    background: rgba(255,255,255,0.02);
+    border-radius: 15px;
+    transition: transform 0.3s;
+}
+
+.feature-item:hover {
+    transform: translateY(-5px);
+    background: rgba(255,255,255,0.05);
+}
+
+.feature-icon {
+  width: 70px; height: 70px;
+  margin: 0 auto 20px;
+  background: linear-gradient(135deg, var(--accent-color-light, #fbb901), var(--accent-color-dark, #ffcc33));
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32px;
+  color: #0c1a1f;
+}
+
+.feature-item h3 {
+  font-size: 20px; 
+  color: var(--accent-color-light, #fbb901); 
+  margin-bottom: 10px;
+}
+
+.feature-item p { 
+    font-size: 15px; 
+    color: var(--text-secondary, #ccc); 
+    line-height: 1.6; 
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .services-hero h1 { font-size: 40px; }
+  .services-grid { grid-template-columns: 1fr; }
+  .service-card { margin-bottom: 20px; }
+}

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Panel - Pawfect Grooming PH</title>
+    <link rel="stylesheet" href="admin.css"> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+    <script>
+    const userSession = sessionStorage.getItem('user');
+    const user = userSession ? JSON.parse(userSession) : null;
+    if (!user || user.role !== 'employee') {
+        alert("Access Denied: Employees Only.");
+        window.location.href = 'login.html';
+    }
+    </script>
+    
+    <canvas id="bg-canvas"></canvas>
+    <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+
+    <div class="sidebar" id="sidebar">
+        <div class="logo-section">
+            <h2>Pawfect Grooming PH</h2>
+            <p>Employee Panel</p>
+        </div>
+        <nav class="menu">
+            <a class="menu-item" href="index.html" style="color: var(--accent-color);">← Back to Website</a>
+            <div style="height: 1px; background: var(--border-color); margin: 10px 20px;"></div>
+            
+            <a class="menu-item active" onclick="showSection('dashboard', event)">Dashboard</a>
+            <a class="menu-item" onclick="showSection('bookings', event)">View Bookings</a>
+            <a class="menu-item" onclick="showSection('services', event)">Manage Services</a>
+            <a class="menu-item" onclick="showSection('customers', event)">View Customers</a>
+            <a class="menu-item" onclick="showSection('messages', event)">View Messages</a>
+            <a class="menu-item" onclick="logout()">Logout</a>
+        </nav>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <h1 id="pageTitle">Employee Dashboard</h1>
+            <div style="display: flex; align-items: center;">
+                <button id="theme-toggle" class="btn" style="width: 45px; height: 45px; margin-right: 15px; padding: 0; font-size: 20px;">🔆</button>
+                <div class="user-info">
+                    <div>
+                        <div style="font-weight: 600;">Staff Member</div>
+                        <div style="font-size: 12px;">Employee</div>
+                    </div>
+                    <div class="user-avatar">E</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="dashboard-section" class="content-section active">
+            <div class="stats-grid">
+                <div class="stat-card tilt-card">
+                    <div class="stat-label">Total Bookings</div>
+                    <div class="stat-value" id="totalBookings">0</div>
+                </div>
+                <div class="stat-card tilt-card">
+                    <div class="stat-label">New Messages</div>
+                    <div class="stat-value" id="totalMessages">0</div>
+                </div>
+            </div>
+            <div style="margin-top: 40px; text-align: center; color: var(--text-secondary);">
+                <p>Welcome to the Employee Panel. You have full permission to Manage Services, and view-only permission for other records.</p>
+            </div>
+        </div>
+
+        <div id="bookings-section" class="content-section">
+            <div class="section-header">
+                <h2 class="section-title">All Bookings (View Only)</h2>
+                <button class="btn" onclick="fetchBookings()">Refresh Data</button>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Owner</th>
+                            <th>Service</th>
+                            <th>Payment</th> <th>Pay Status</th> <th>Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookingsTable"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="services-section" class="content-section">
+            <div class="section-header">
+                <h2 class="section-title">Service Management</h2>
+                <button class="btn" onclick="openServiceModal()">+ Add New Service</button>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Service Name</th>
+                            <th>Price</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="servicesTable"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="customers-section" class="content-section">
+            <div class="section-header">
+                <h2 class="section-title">Customers List (View Only)</h2>
+                <button class="btn" onclick="fetchCustomers()">Refresh Data</button>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Joined Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customersTable"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="messages-section" class="content-section">
+            <div class="section-header">
+                <h2 class="section-title">Contact Messages (View Only)</h2>
+                <button class="btn" onclick="fetchMessages()">Refresh Data</button>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Subject</th>
+                            <th>Message</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="messagesTable"></tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="viewModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Booking Details</h3>
+                <button class="close-btn" onclick="closeModal('viewModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="view-details-grid">
+                    <div class="view-item">
+                        <h4>Client Name</h4>
+                        <p id="view-owner"></p>
+                    </div>
+                    <div class="view-item">
+                        <h4>Email</h4>
+                        <p id="view-email"></p>
+                    </div>
+                    <div class="view-item">
+                        <h4>Pet Name</h4>
+                        <p id="view-pet"></p>
+                    </div>
+                    <div class="view-item">
+                        <h4>Service</h4>
+                        <p id="view-service-detail"></p>
+                    </div>
+                    <div class="view-item">
+                        <h4>Price</h4>
+                        <p id="view-price"></p>
+                    </div>
+                    <div class="view-item">
+                        <h4>Payment Method</h4> <p id="view-method"></p>
+                    </div>
+                    <div class="view-item">
+                        <h4>Reference No.</h4>
+                        <p id="view-ref-number" style="font-family: monospace; font-size: 18px; color: var(--accent-color-light);"></p>
+                    </div>
+                    <div class="view-item">
+                        <h4>Payment Status</h4> <p id="view-pay-status"></p>
+                    </div>
+                    <div class="view-item">
+                        <h4>Date & Time</h4>
+                        <p id="view-datetime"></p>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button class="btn" onclick="closeModal('viewModal')">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="serviceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="serviceModalTitle">Add Service</h3>
+                <button class="close-btn" type="button" onclick="closeModal('serviceModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="serviceForm" onsubmit="return false;">
+                    <input type="hidden" id="service-id">
+                    <input type="hidden" id="service-current-img">
+                    
+                    <div class="form-group">
+                        <label class="form-label">Service Name</label>
+                        <input type="text" id="service-name" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Price (₱)</label>
+                        <input type="number" id="service-price" class="form-input" required step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <textarea id="service-desc" class="form-input" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Service Image</label>
+                        <input type="file" id="service-img-file" class="form-input" accept="image/*" onchange="previewImage(this)">
+                        
+                        <div style="margin-top: 15px; text-align: center; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 10px;">
+                            <p style="font-size: 12px; color: var(--text-faded); margin-bottom: 5px;">Image Preview:</p>
+                            <img id="service-img-preview" src="" style="max-height: 150px; max-width: 100%; border-radius: 5px; display: none; margin: 0 auto; border: 1px solid var(--border-color);">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="form-actions">
+                <button class="btn btn-secondary" type="button" onclick="closeModal('serviceModal')">Cancel</button>
+                <button class="btn" type="button" onclick="saveService()">Save Service</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="employee.js"></script>
+    <script src="3d-interactions.js"></script>
+</body>
+</html>

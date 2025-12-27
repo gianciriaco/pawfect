@@ -1,0 +1,277 @@
+/* ===== HERO SECTION ===== */
+.hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 100px 60px;
+    position: relative;
+    background: transparent; 
+    overflow: hidden;
+}
+
+.hero-content {
+    max-width: 600px;
+    animation: fadeInUp 1s ease;
+}
+
+.hero-content h1 {
+    font-size: 58px;
+    font-weight: 900;
+    margin-bottom: 25px;
+    line-height: 1.2;
+    background: linear-gradient(135deg, var(--accent-color-light), var(--accent-color-dark));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-content p {
+    font-size: 20px;
+    margin-bottom: 40px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+.hero-cta {
+    display: flex;
+    gap: 20px;
+}
+
+.cta-button {
+    padding: 16px 35px;
+    font-size: 18px;
+    font-weight: 700;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.cta-primary {
+    background: linear-gradient(135deg, var(--accent-color-light), var(--accent-color-dark));
+    color: var(--bg-secondary);
+    box-shadow: 0 10px 30px var(--shadow-color);
+}
+
+.cta-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px var(--shadow-color);
+}
+
+.cta-secondary {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 2px solid var(--accent-color-light);
+}
+
+.cta-secondary:hover {
+    background: var(--accent-color-light);
+    color: var(--bg-secondary);
+    border-color: var(--accent-color-dark);
+}
+
+.hero-image img {
+    max-width: 500px;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+    animation: float 4s ease-in-out infinite;
+}
+
+/* ===== SERVICES OVERVIEW ===== */
+.services-overview {
+    padding: 80px 60px;
+    text-align: center;
+    background: transparent; 
+}
+
+.services-overview h2 {
+    font-size: 42px;
+    font-weight: 900;
+    margin-bottom: 50px;
+    color: var(--accent-color-light);
+}
+
+.cards-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.service-card {
+    width: 280px;
+    background: var(--bg-secondary); 
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border-color);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 50px var(--shadow-color);
+}
+
+.service-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.service-card h3 {
+    font-size: 24px;
+    color: var(--accent-color-light);
+    margin: 20px 0 10px;
+}
+
+.service-card p {
+    color: var(--text-secondary);
+    padding: 0 20px;
+    margin-bottom: 20px;
+}
+
+.learn-more {
+    display: block;
+    color: var(--accent-color-dark);
+    text-decoration: none;
+    font-weight: 600;
+    padding: 15px 20px;
+    background: var(--bg-tertiary);
+    transition: background 0.3s ease;
+}
+
+.service-card:hover .learn-more {
+    background: var(--accent-color-light);
+    color: var(--bg-secondary);
+}
+
+/* ===== TESTIMONIALS ===== */
+.testimonials {
+    padding: 80px 60px;
+    text-align: center;
+    background: transparent;
+}
+
+.testimonials h2 {
+    font-size: 42px;
+    font-weight: 900;
+    margin-bottom: 50px;
+    color: var(--accent-color-light);
+}
+
+.testimonial-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.testimonial-card {
+    max-width: 350px;
+    width: 100%;
+    background: var(--bg-tertiary);
+    padding: 30px;
+    border-radius: 15px;
+    text-align: left;
+    border-left: 5px solid var(--accent-color-light);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.testimonial-card .quote {
+    font-style: italic;
+    color: var(--text-secondary);
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+.testimonial-card .author {
+    font-weight: 700;
+    color: var(--text-primary);
+    font-size: 16px;
+}
+
+/* ===== CTA BANNER ===== */
+.cta-banner {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.2));
+    padding: 80px 60px;
+    text-align: center;
+    border-top: 1px solid var(--border-color);
+    backdrop-filter: blur(5px);
+}
+
+.cta-banner h2 {
+    font-size: 38px;
+    font-weight: 900;
+    margin-bottom: 20px;
+    color: var(--accent-color-light);
+}
+
+.cta-banner p {
+    font-size: 20px;
+    color: var(--text-secondary);
+    margin-bottom: 30px;
+}
+
+.cta-banner button {
+    padding: 18px 45px;
+    background: linear-gradient(135deg, var(--accent-color-light), var(--accent-color-dark));
+    color: var(--bg-secondary);
+    border: none;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    text-transform: uppercase;
+    box-shadow: 0 10px 30px var(--shadow-color);
+}
+
+.cta-banner button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px var(--shadow-color);
+}
+
+/* ===== MOBILE RESPONSIVE FIXES ===== */
+@media (max-width: 992px) {
+    .hero {
+        flex-direction: column;
+        text-align: center;
+        padding: 60px 20px;
+    }
+    
+    .hero-content {
+        max-width: 100%;
+        margin-bottom: 40px;
+    }
+    
+    /* FIX: Stack buttons vertically on mobile */
+    .hero-cta {
+        flex-direction: column;
+        width: 100%;
+        gap: 15px;
+    }
+
+    .cta-button {
+        width: 100%; /* Full width buttons */
+        padding: 15px;
+    }
+    
+    .hero-image img { 
+        max-width: 100%; 
+        width: 350px; 
+    }
+    
+    .services-overview, .testimonials, .cta-banner {
+        padding: 60px 20px;
+    }
+    
+    .hero-content h1 { font-size: 42px; }
+    .services-overview h2, .testimonials h2 { font-size: 32px; }
+    .cta-banner h2 { font-size: 28px; }
+}

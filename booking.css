@@ -1,0 +1,179 @@
+/* ===== BOOKING HERO SECTION ===== */
+.booking-hero {
+  text-align: center;
+  padding: 100px 60px;
+  background: transparent;
+  position: relative;
+  overflow: hidden;
+  padding-bottom: 80px;
+}
+
+.booking-hero-content {
+  position: relative;
+  z-index: 2;
+  animation: fadeInUp 1s ease;
+}
+
+.booking-hero h1 {
+  font-size: 56px;
+  font-weight: 900;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, var(--accent-color-light), var(--accent-color-dark));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.booking-hero p {
+  font-size: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.8;
+  color: var(--text-secondary);
+}
+
+/* ===== BOOKING FORM SECTION ===== */
+.booking-section {
+  padding: 0 60px 80px; 
+  display: flex;
+  justify-content: center;
+  background: transparent;
+}
+
+.booking-container {
+  max-width: 800px;
+  width: 100%;
+  background: rgba(12, 26, 31, 0.85);
+  backdrop-filter: blur(10px);
+  border-radius: 25px;
+  padding: 40px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border-color);
+}
+
+.booking-container h2 {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--accent-color-light);
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.booking-form fieldset {
+  border: 2px solid var(--border-color);
+  border-radius: 15px;
+  padding: 30px;
+  margin-bottom: 30px;
+}
+
+.booking-form legend {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--accent-color-light);
+  padding: 0 15px;
+  background: transparent; 
+}
+
+.form-group {
+  margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 5px;
+  align-self: center;
+}
+
+/* INPUTS */
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group input[type="date"],
+.form-group input[type="time"],
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.05); 
+  color: var(--text-primary);
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.form-group select option { background-color: #0c1a1f; color: #fff; }
+
+/* LIGHT MODE SUPPORT */
+body.light-mode .form-group input[type="text"],
+body.light-mode .form-group input[type="email"],
+body.light-mode .form-group input[type="tel"],
+body.light-mode .form-group input[type="date"],
+body.light-mode .form-group input[type="time"],
+body.light-mode .form-group select,
+body.light-mode .form-group textarea {
+  background: #ffffff;
+  border: 1px solid #cbd5e1; 
+  color: #1e293b;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+body.light-mode .form-group select option { background-color: #ffffff; color: #1f2937; }
+
+/* FOCUS STATES */
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--accent-color-light);
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 0 4px var(--shadow-color);
+}
+
+body.light-mode .form-group input:focus,
+body.light-mode .form-group select:focus,
+body.light-mode .form-group textarea:focus {
+  background: #ffffff;
+  border-color: var(--accent-color-light);
+  box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.2);
+}
+
+.form-group textarea { resize: vertical; grid-column: 1 / -1; }
+.form-group.full-width { display: block; }
+.form-group.full-width textarea { width: 100%; grid-column: 1 / -1; }
+
+.submit-btn {
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(135deg, var(--accent-color-light), var(--accent-color-dark));
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  text-transform: uppercase;
+  box-shadow: 0 10px 30px var(--shadow-color);
+}
+
+.submit-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px var(--shadow-color);
+}
+
+/* MOBILE RESPONSIVE FIXES */
+@media (max-width: 768px) {
+  .booking-hero { padding: 60px 20px; }
+  .booking-hero h1 { font-size: 38px; }
+  .booking-section { padding: 40px 20px; }
+  .booking-container { padding: 30px 20px; }
+  .form-group { grid-template-columns: 1fr; gap: 15px; }
+  .service-checkbox-group { grid-template-columns: 1fr; }
+}
